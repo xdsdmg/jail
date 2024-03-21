@@ -1,27 +1,52 @@
-# Jail
+# Simple Container
 
-## Ref
+Since my work of nearly half a year is related to containers, I implemented a simple container  just out of curiosity.
+
+**This is only a toy, not use it in the formal environment**.
+
+Implements a simple container model through [Linux Namespace](https://lwn.net/Articles/531114/) and [UnionFS](https://en.wikipedia.org/wiki/UnionFS), and each container has isolated filesystem isolation from network systems.
+
+## Reference
 
 - https://coolshell.cn/articles/17010.html
-- https://bytetech.info/articles/7160875563781980190
 
-运用 Linux namespace 和联合文件系统（overlay）模拟一个简单的容器实例，也可算作进程 jail（关押）工具。
+## Requirement
 
-## 使用方法
+- **Only test in Debian**.
+- Golang 1.19
 
-需要在 Linux 环境下运行。
+## Usage
+
+Create RootFS, RootFS will be used by container to generate it's own file system.
 
 ``` bash
-# 运行
-make all
+make init
+```
 
-# 运行后需要清理编译产物
+Build server and container, container will make a request to server for network configuration through [UNIX domain socket](https://en.wikipedia.org/wiki/Unix_domain_socket).
+
+``` bash
+make build
+```
+
+Run server, **server needs to be started before container**.
+
+```
+make run_server
+```
+
+Create a container, you can create multiple containers, and the network between the containers is unimpeded.
+
+```
+make run_container
+```
+
+Clean the environment.
+
+```
 make clean
 ```
 
-## 容器网络需要满足哪些要求？
+## TODO
 
-``` bash
-sudo unshare --fork --pid --mount-proc bash
-```
-
+- `umount` UnionFS may fail when quit container.

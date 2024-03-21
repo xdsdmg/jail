@@ -1,16 +1,15 @@
 #!/bin/sh -e
 
-root_name=rootfs-tmp
-attachment_dir=attachments
+ROOT_NAME=rootfs
+ATTACHMENT_DIR=attachments
 
-mkdir ${root_name}
-mkdir -p ${root_name}/bin ${root_name}/sbin ${root_name}/etc ${root_name}/proc ${root_name}/sys ${root_name}/usr/bin ${root_name}/usr/sbin 
+mkdir ${ROOT_NAME}
+mkdir -p ${ROOT_NAME}/bin ${ROOT_NAME}/sbin ${ROOT_NAME}/etc ${ROOT_NAME}/proc ${ROOT_NAME}/sys ${ROOT_NAME}/usr/bin ${ROOT_NAME}/usr/sbin
 
-cp ${attachment_dir}/busybox ${root_name}/bin/busybox
-cp ${attachment_dir}/bash ${root_name}/bin/bash 
-cp ${attachment_dir}/port-scanner ${root_name}/bin/port-scanner
+cp ${ATTACHMENT_DIR}/busybox ${ROOT_NAME}/bin/busybox
+cp ${ATTACHMENT_DIR}/bash ${ROOT_NAME}/bin/bash
+cp ${ATTACHMENT_DIR}/port-scanner ${ROOT_NAME}/bin/port-scanner
 
-for cmd in $(${root_name}/bin/busybox --list); do
-  ln -s busybox ${root_name}/bin/$cmd
+for cmd in $(${ROOT_NAME}/bin/busybox --list); do
+  ln -s busybox ${ROOT_NAME}/bin/${cmd}
 done
-
